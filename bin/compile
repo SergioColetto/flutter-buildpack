@@ -47,7 +47,7 @@ fi
 # Check if FLUTTER_VERSION variables is set.
 if [ -n "$FLUTTER_VERSION" ]; then
   # Load bash variables from flutter --machine --version and read it like  $FLUTTER_VERSION variable.
-  flutter/bin/flutter --machine --version >flutter.json
+  flutter/bin/flutter --machine --version > flutter.json
   FLUTTER_INSTALLED_VERSION=$(grep -o '"frameworkVersion": *"[^"]*' flutter.json | grep -o '[^"]*$')
 
   # Check if the FLUTTER_VERSION is the same with the installed one.
@@ -79,7 +79,7 @@ flutter/bin/flutter pub get --quiet | indent
 PATH="$PATH":"$(pwd)/flutter/bin/"
 
 if [ -z "$FLUTTER_BUILD" ]; then
-  FLUTTER_BUILD="flutter build web --release --quiet"
+  FLUTTER_BUILD="flutter build web --release --dart-define-from-file=env.produk.json --quiet"
 fi
 
 print "Compiling the project with $FLUTTER_BUILD"
