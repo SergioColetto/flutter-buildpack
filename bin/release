@@ -11,6 +11,6 @@ fi
 cat <<EOF
 ---
 default_process_types:
-    web: /app/dart-sdk/bin/dart pub global run dart_server_httpd
+    web: /app/.puro/bin/puro pub global run dart_server_httpd
 
 EOF
