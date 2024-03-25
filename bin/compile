@@ -38,7 +38,6 @@ mkdir -p $CACHE_DIR
 
 cd $BUILD_DIR
 
-print "Installing SDK Flutter from PURO.DEV."
 curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash
 /app/.puro/bin/puro upgrade-puro
 
@@ -46,16 +45,16 @@ if [ -d $BUILD_DIR/app/.puro/envs/stable/flutter/bin/flutter ]; then
   /app/.puro/envs/stable/flutter/bin/flutter --machine --version > flutter.json
   FLUTTER_INSTALLED_VERSION=$(grep -o '"frameworkVersion": *"[^"]*' flutter.json | grep -o '[^"]*$')
   if [ "$FLUTTER_VERSION" != "$FLUTTER_INSTALLED_VERSION" ]; then
-    print "Installing Flutter SDK version : $FLUTTER_VERSION"
+    print "Installing Flutter SDK version: $FLUTTER_VERSION"
     /app/.puro/bin/puro create stable $FLUTTER_VERSION
     /app/.puro/bin/puro use -g stable
   fi
+  rm flutter.json
 else
+  print "Installing SDK Flutter from PURO.DEV $FLUTTER_VERSION"
   /app/.puro/bin/puro create stable $FLUTTER_VERSION
   /app/.puro/bin/puro use -g stable
 fi
-
-rm flutter.json
 
 print "Enabling Web support"
 /app/.puro/bin/puro flutter config --enable-web --quiet | indent
