@@ -1,15 +1,16 @@
 #!/bin/sh
 
 BUILD_DIR=${1:-}
-cd $BUILD_DIR
-
-if [ -d $BUILD_DIR/app/.puro/bin/puro ]; then
-  echo "-------> DONE"
+# If the FLUTTER_CLEANUP is in false, or in true.
+if [ -d $BUILD_DIR/build/web ]; then
+    DEPLOY_DIR="/app/build/web/"
+else
+    DEPLOY_DIR="/app/"
 fi
 
 cat <<EOF
 ---
 default_process_types:
-    web: /app/.puro/bin/puro dart pub global run dart_server_httpd
+    web: /app/dart-sdk/bin/dart pub global run dart_server_httpd
 
 EOF
