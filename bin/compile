@@ -61,6 +61,3 @@ eval $FLUTTER_BUILD | indent
 #  To read hidden directories and use move with exclusion.
 shopt -s extglob
 
-print "Getting dart_server_httpd to run web service."
-/app/.puro/envs/onboarding_waiter/flutter/bin/cache/dart-sdk/bin/dart pub global activate -sgit https://github.com/SergioColetto/dart_server_httpd.git | indent
-print "Getting dart_server_httpd to run web service."

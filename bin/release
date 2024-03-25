@@ -11,6 +11,6 @@ fi
 cat <<EOF
 ---
 default_process_types:
-    web: python3 -m http.server
+    web: $(DEPLOY_DIR)/python3 -m http.server
 
 EOF
