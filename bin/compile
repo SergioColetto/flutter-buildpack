@@ -51,7 +51,9 @@ else
   print "Copying DONE"
 fi
 
-if [ -n "$FLUTTER_VERSION" ]; then
+print "Check version"
+if [ -d flutter/bin/flutter ]; then
+  print "Check framework version"
   flutter/bin/flutter --machine --version > flutter.json
   FLUTTER_INSTALLED_VERSION=$(grep -o '"frameworkVersion": *"[^"]*' flutter.json | grep -o '[^"]*$')
 
