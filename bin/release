@@ -3,7 +3,7 @@
 BUILD_DIR=${1:-}
 cd $BUILD_DIR
 
-if [ -d $BUILD_DIR/app/.puro/bin/puro dart ]; then
+if [ -d $BUILD_DIR/app/.puro/bin/puro ]; then
   echo "-------> DONE"
 fi
 
