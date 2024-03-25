@@ -29,6 +29,9 @@ function indent() {
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 
+print $BUILD_DIR
+print CACHE_DIR
+
 export_env_dir "$3"
 
 # Create the cache directory if not exist.
