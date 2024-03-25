@@ -84,9 +84,8 @@ eval $FLUTTER_BUILD | indent
 PUB_CACHE="$HOME/.pub-cache"
 mkdir -p $PUB_CACHE
 
-mkdir -p $CACHE_DIR/.pub-cache/
+mkdir -p $CACHE_DIR/.pub-cache
 cp -R $PUB_CACHE/* $CACHE_DIR/.pub-cache/
-
 cp -R $PUB_CACHE $BUILD_DIR
 
 export PATH="$PATH":"/app/dart-sdk/bin/"
