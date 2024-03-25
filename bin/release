@@ -11,6 +11,6 @@ fi
 cat <<EOF
 ---
 default_process_types:
-    web: /app/build/web/python -m http.server
+    web: gunicorn HOME.wsgi %PORT%
 
 EOF
