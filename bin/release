@@ -1,14 +1,10 @@
 #!/bin/sh
 
-function print() {
-  echo "-----> $1"
-}
-
 BUILD_DIR=${1:-}
 PWD="$(pwd)"
 
-print $BUILD_DIR
-print $PWD
+echo $BUILD_DIR
+echo $PWD
 
 if [ -d $BUILD_DIR/build/web ]; then
     DEPLOY_DIR="/app/build/web/"
