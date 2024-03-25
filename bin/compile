@@ -39,10 +39,10 @@ cd $BUILD_DIR
 
 print "Installing SDK Flutter from PURO.DEV."
 curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash
-pwd/app/.puro/bin/puro upgrade-puro
-pwd/app/.puro/bin/puro create credphone 3.7.12
-pwd/app/.puro/bin/puro create gtr_motors 3.7.12
-pwd/app/.puro/bin/puro create onboarding_waiter 3.19.0
+/app/.puro/bin/puro upgrade-puro
+/app/.puro/bin/puro create credphone 3.7.12
+/app/.puro/bin/puro create gtr_motors 3.7.12
+/app/.puro/bin/puro create onboarding_waiter 3.19.0
 
 print "Enabling Web support"
 flutter/bin/flutter config --enable-web --quiet | indent
