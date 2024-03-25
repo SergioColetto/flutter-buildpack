@@ -37,17 +37,12 @@ mkdir -p $CACHE_DIR
 
 cd $BUILD_DIR
 
-if [ -d "$CACHE_DIR/flutter" ]; then
-  print "Restoring Flutter SDK from CACHE"
-  cp -R $CACHE_DIR/flutter $BUILD_DIR
-else
-  print "Installing SDK Flutter from PURO.DEV."
-  curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash --quiet
-  puro upgrade-puro
-  puro create credphone 3.7.12
-  puro create gtr_motors 3.7.12
-  puro create onboarding_waiter 3.19.0
-fi
+print "Installing SDK Flutter from PURO.DEV."
+curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash --quiet
+puro upgrade-puro
+puro create credphone 3.7.12
+puro create gtr_motors 3.7.12
+puro create onboarding_waiter 3.19.0
 
 print "Enabling Web support"
 flutter/bin/flutter config --enable-web --quiet | indent
