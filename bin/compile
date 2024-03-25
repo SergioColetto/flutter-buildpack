@@ -81,7 +81,7 @@ print "Getting dart_server_httpd to run web service."
 print "Compiling the project with $FLUTTER_BUILD"
 eval $FLUTTER_BUILD | indent
 
-PUB_CACHE="$HOME/.pub-cache/"
+PUB_CACHE="$HOME/.pub-cache"
 mkdir -p $PUB_CACHE
 
 mkdir -p $CACHE_DIR/.pub-cache/
