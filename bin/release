@@ -1,10 +1,15 @@
 #!/bin/sh
 
 BUILD_DIR=${1:-}
+cd $BUILD_DIR
+
+if [ -d $BUILD_DIR/app/.puro/bin/puro dart ]; then
+  echo "-------> DONE"
+fi
 
 cat <<EOF
 ---
 default_process_types:
-    web: /app/dart-sdk/bin/dart pub global run dart_server_httpd
+    web: /app/.puro/bin/puro dart pub global run dart_server_httpd
 
 EOF
