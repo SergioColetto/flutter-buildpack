@@ -81,12 +81,14 @@ print "Getting dart_server_httpd to run web service."
 print "Compiling the project with $FLUTTER_BUILD"
 eval $FLUTTER_BUILD | indent
 
-PUB_CACHE="$HOME/.pub-cache"
-mkdir -p $PUB_CACHE
+if [ -d $BUILD_DIR/app/.puro/envs/stable/flutter/bin/flutter ]; then
+  PUB_CACHE="$HOME/.pub-cache"
+  mkdir -p $PUB_CACHE
 
-mkdir -p $CACHE_DIR/.pub-cache
-cp -R $PUB_CACHE/* $CACHE_DIR/.pub-cache/
-cp -R $PUB_CACHE $BUILD_DIR
+  mkdir -p $CACHE_DIR/.pub-cache
+  cp -R $PUB_CACHE/* $CACHE_DIR/.pub-cache/
+  cp -R $PUB_CACHE $BUILD_DIR
+fi
 
 export PATH="$PATH":"/app/dart-sdk/bin/"
 export PATH="$PATH":"/app/.pub-cache/bin"
