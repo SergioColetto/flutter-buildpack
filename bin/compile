@@ -43,23 +43,20 @@ curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash
 /app/.puro/bin/puro create onboarding_waiter 3.19.0
 
 print "Enabling Web support"
-/app/.puro/envs/onboarding_waiter/flutter config --enable-web --quiet | indent
+/app/.puro/envs/onboarding_waiter/flutter/bin/flutter config --enable-web --quiet | indent
 
 print "Running flutter clean command."
-/app/.puro/envs/onboarding_waiter/flutter clean --quiet | indent
+/app/.puro/envs/onboarding_waiter/flutter/bin/flutter clean --quiet | indent
 
 print "Getting packages from Flutter project"
-/app/.puro/envs/onboarding_waiter/flutter pub get | indent
+/app/.puro/envs/onboarding_waiter/flutter/bin/flutter pub get | indent
 
 if [ -z "$FLUTTER_BUILD" ]; then
-  FLUTTER_BUILD="/app/.puro/envs/onboarding_waiter/flutter build web --release --dart-define-from-file=env.produk.json --quiet"
+  FLUTTER_BUILD="/app/.puro/envs/onboarding_waiter/flutter/bin/flutter build web --release --dart-define-from-file=env.produk.json --quiet"
 fi
 
 print "Compiling the project with $FLUTTER_BUILD"
 eval $FLUTTER_BUILD | indent
-
-PUB_CACHE="$HOME/.pub-cache/"
-mkdir -p $PUB_CACHE
 
 #  To read hidden directories and use move with exclusion.
 shopt -s extglob
