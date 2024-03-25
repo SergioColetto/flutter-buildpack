@@ -41,22 +41,17 @@ if [ -d "$CACHE_DIR/flutter" ]; then
   print "Restoring Flutter SDK from CACHE"
   cp -R $CACHE_DIR/flutter $BUILD_DIR
 else
-  print "Installing SDK Flutter from PURO.DEV $FLUTTER_VERSION"
-  curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash
-  /app/.puro/bin/puro upgrade-puro
-  /app/.puro/bin/puro create stable $FLUTTER_VERSION
-  /app/.puro/bin/puro use -g stable
-  print "Copying flutter folder from puro"
-  cp -R /app/.puro/envs/stable/flutter .
-  print "Copying DONE"
+  print "Installing SDK from Github repository."
+  git clone https://github.com/flutter/flutter.git --quiet
 fi
 
-print "Check version"
-if [ -d flutter/bin/flutter ]; then
-  print "Check framework version"
+# Check if FLUTTER_VERSION variables is set.
+if [ -n "$FLUTTER_VERSION" ]; then
+  # Load bash variables from flutter --machine --version and read it like  $FLUTTER_VERSION variable.
   flutter/bin/flutter --machine --version > flutter.json
   FLUTTER_INSTALLED_VERSION=$(grep -o '"frameworkVersion": *"[^"]*' flutter.json | grep -o '[^"]*$')
 
+  # Check if the FLUTTER_VERSION is the same with the installed one.
   if [ "$FLUTTER_VERSION" != "$FLUTTER_INSTALLED_VERSION" ]; then
     print "Installing Flutter SDK version : $FLUTTER_VERSION"
     flutter/bin/flutter version $FLUTTER_VERSION --quiet | indent
@@ -64,10 +59,12 @@ if [ -d flutter/bin/flutter ]; then
   rm flutter.json
 
 else
+
   print "Running flutter upgrade command"
   if [ "$channel" != "stable" ]; then
     flutter/bin/flutter channel stable | indent
   fi
+
   flutter/bin/flutter upgrade --quiet | indent
 fi
 
@@ -92,6 +89,7 @@ eval $FLUTTER_BUILD | indent
 PUB_CACHE="$HOME/.pub-cache/"
 mkdir -p $PUB_CACHE
 
+# Saving SDK in Cache and in app.
 if [ -x flutter/bin/flutter ]; then
   print "Saving Flutter SDK in Cache"
   rm -rf $CACHE_DIR/flutter
@@ -100,15 +98,24 @@ if [ -x flutter/bin/flutter ]; then
   rm -rf $BUILD_DIR/flutter
 fi
 
+#  To read hidden directories and use move with exclusion.
 shopt -s extglob
 
+# Check  FLUTTER_CLEANUP var to delete all files or keep it.
 if [ "$FLUTTER_CLEANUP" != false ]; then
+
   mkdir -p $BUILD_DIR/TO_DELETE
+
   mv !("TO_DELETE") TO_DELETE
   mv TO_DELETE/build/web/* $BUILD_DIR
   mv TO_DELETE/dart-sdk $BUILD_DIR
   rm -rf TO_DELETE
+
 fi
+
+# Activate dart_server_httpd dart package to run the server.
+# Is taken from my Github repo because some variables need to be changed every run
+# like PORT from environment.
 
 if [ -d "$CACHE_DIR/.pub-cache/" ]; then
   print "dart_server_httpd Found in cache. Restoring."
@@ -122,7 +129,10 @@ else
   cp -R $PUB_CACHE/* $CACHE_DIR/.pub-cache/
 fi
 
+# Moving to the build, after running the compile. All will be deleted and removed to app directory.
+# Copying the result, the files will be kept in storage.
 cp -R $PUB_CACHE $BUILD_DIR
 
 export PATH="$PATH":"/app/dart-sdk/bin/"
 export PATH="$PATH":"/app/.pub-cache/bin"
+
