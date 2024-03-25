@@ -46,7 +46,7 @@ else
   /app/.puro/bin/puro upgrade-puro
   /app/.puro/bin/puro create stable $FLUTTER_VERSION
   /app/.puro/bin/puro use -g stable
-  cp -R /.puro/envs/stable/flutter .
+  cp -R /app/.puro/envs/stable/flutter .
 fi
 
 # Check if FLUTTER_VERSION variables is set.
