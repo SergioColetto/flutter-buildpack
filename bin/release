@@ -5,6 +5,6 @@ BUILD_DIR=${1:-}
 cat <<EOF
 ---
 default_process_types:
-    web: $BUILD_DIR/app/.puro/bin/puro dart pub global run dart_server_httpd
+    web: puro dart pub global run dart_server_httpd
 
 EOF
