@@ -106,17 +106,14 @@ if [ "$FLUTTER_CLEANUP" != false ]; then
   rm -rf TO_DELETE
 fi
 
-if [ -d "$CACHE_DIR/.pub-cache/" ]; then
-  print "dart_server_httpd Found in cache. Restoring."
-  cp -R $CACHE_DIR/.pub-cache/* $PUB_CACHE
-else
-  print "Getting dart_server_httpd to run web service."
-  $BUILD_DIR/dart-sdk/bin/dart pub global activate -sgit https://github.com/SergioColetto/dart_server_httpd.git | indent
 
-  print "Getting dart_server_httpd to run web service."
-  mkdir -p $CACHE_DIR/.pub-cache/
-  cp -R $PUB_CACHE/* $CACHE_DIR/.pub-cache/
-fi
+print "Getting dart_server_httpd to run web service."
+$BUILD_DIR/dart-sdk/bin/dart pub global activate -sgit https://github.com/SergioColetto/dart_server_httpd.git | indent
+
+print "Getting dart_server_httpd to run web service."
+mkdir -p $CACHE_DIR/.pub-cache/
+cp -R $PUB_CACHE/* $CACHE_DIR/.pub-cache/
+
 
 cp -R $PUB_CACHE $BUILD_DIR
 
