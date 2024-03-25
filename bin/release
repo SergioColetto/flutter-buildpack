@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ENV="onboarding_waiter"
+
 BUILD_DIR=${1:-}
 # If the FLUTTER_CLEANUP is in false, or in true.
 if [ -d $BUILD_DIR/build/web ]; then
@@ -11,6 +13,6 @@ fi
 cat <<EOF
 ---
 default_process_types:
-    web: /app/dart-sdk/bin/dart pub global run dart_server_httpd
+    web: /app/.puro/envs/$ENV/flutter/bin/cache/dart-sdk/bin/dart pub global run dart_server_httpd
 
 EOF
