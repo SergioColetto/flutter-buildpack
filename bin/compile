@@ -38,7 +38,7 @@ mkdir -p $CACHE_DIR
 cd $BUILD_DIR
 
 print "Installing SDK Flutter from PURO.DEV."
-curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash --quiet
+curl -o- https://puro.dev/install.sh | PURO_VERSION="1.4.5" bash
 puro upgrade-puro
 puro create credphone 3.7.12
 puro create gtr_motors 3.7.12
