@@ -110,13 +110,6 @@ fi
 print "Getting dart_server_httpd to run web service."
 $BUILD_DIR/dart-sdk/bin/dart pub global activate -sgit https://github.com/SergioColetto/dart_server_httpd.git | indent
 
-print "Getting dart_server_httpd to run web service."
-mkdir -p $CACHE_DIR/.pub-cache/
-cp -R $PUB_CACHE/* $CACHE_DIR/.pub-cache/
-
-
-cp -R $PUB_CACHE $BUILD_DIR
-
 export PATH="$PATH":"/app/dart-sdk/bin/"
 export PATH="$PATH":"/app/.pub-cache/bin"
 
