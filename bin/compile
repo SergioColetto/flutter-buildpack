@@ -36,6 +36,34 @@ mkdir -p $CACHE_DIR
 
 cd $BUILD_DIR
 
+JS_FILE="$BUILD_DIR/web/flutter_bootstrap.js"
+
+generate_random_version() {
+    DATE=$(date +"%Y%m%d")
+    RANDOM_HASH=$(openssl rand -hex 4)
+    echo "${DATE}.${RANDOM_HASH}"
+}
+
+get_service_worker_version() {
+    git rev-parse --short HEAD 2>/dev/null || echo "default"
+}
+
+# Verifica se o arquivo existe
+if [ ! -f "$JS_FILE" ]; then
+    echo "Erro: flutter_bootstrap.js não encontrado!"
+    exit 1
+fi
+
+# Gera versões
+VERSION=$(generate_random_version)
+SERVICE_WORKER_VERSION=$(get_service_worker_version)
+
+sed -i 's/{{app_version}}/$VERSION/g' $JS_FILE
+
+# Substitui a versão do service worker - Note a flag -i '' para macOS
+sed -i 's/{{service_worker_version}}/$SERVICE_WORKER_VERSION/g' $JS_FILE
+
+
 if [ -d "$CACHE_DIR/flutter" ]; then
   print "Restoring Flutter SDK from CACHE"
   cp -R $CACHE_DIR/flutter $BUILD_DIR
@@ -66,34 +94,6 @@ else
 
   flutter/bin/flutter upgrade --quiet | indent
 fi
-
-JS_FILE="$BUILD_DIR/web/flutter_bootstrap.js"
-
-generate_random_version() {
-    DATE=$(date +"%Y%m%d")
-    RANDOM_HASH=$(openssl rand -hex 4)
-    echo "${DATE}.${RANDOM_HASH}"
-}
-
-get_service_worker_version() {
-    git rev-parse --short HEAD 2>/dev/null || echo "default"
-}
-
-# Verifica se o arquivo existe
-if [ ! -f "$JS_FILE" ]; then
-    echo "Erro: flutter_bootstrap.js não encontrado!"
-    exit 1
-fi
-
-# Gera versões
-VERSION=$(generate_random_version)
-SERVICE_WORKER_VERSION=$(get_service_worker_version)
-
-# Substitui a versão no arquivo - Note a flag -i '' para macOS
-sed -i '' "s/{{app_version}}/$VERSION/g" "$JS_FILE"
-
-# Substitui a versão do service worker - Note a flag -i '' para macOS
-sed -i '' "s/{{service_worker_version}}/$SERVICE_WORKER_VERSION/g" "$JS_FILE"
 
 print "Enabling Web support"
 flutter/bin/flutter config --enable-web --quiet | indent
@@ -130,14 +130,11 @@ shopt -s extglob
 
 # Check  FLUTTER_CLEANUP var to delete all files or keep it.
 if [ "$FLUTTER_CLEANUP" != false ]; then
-
   mkdir -p $BUILD_DIR/TO_DELETE
-
   mv !("TO_DELETE") TO_DELETE
   mv TO_DELETE/build/web/* $BUILD_DIR
   mv TO_DELETE/dart-sdk $BUILD_DIR
   rm -rf TO_DELETE
-
 fi
 
 # Activate dart_server_httpd dart package to run the server.
