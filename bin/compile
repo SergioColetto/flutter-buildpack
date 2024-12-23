@@ -78,12 +78,12 @@ flutter/bin/flutter pub get | indent
 
 PATH="$PATH":"$(pwd)/flutter/bin/"
 
-if [ -z "$FLUTTER_BUILD" ]; then
-  FLUTTER_BUILD="flutter build web --release --dart-define-from-file=env.produk.json --web-renderer=html --quiet"
-fi
+# if [ -z "$FLUTTER_BUILD" ]; then
+#   FLUTTER_BUILD="flutter build web --release --dart-define-from-file=env.produk.json --web-renderer=html --quiet"
+# fi
 
-print "Compiling the project with $FLUTTER_BUILD"
-eval $FLUTTER_BUILD | indent
+# print "Compiling the project with $FLUTTER_BUILD"
+# eval $FLUTTER_BUILD | indent
 
 PUB_CACHE="$HOME/.pub-cache/"
 mkdir -p $PUB_CACHE
