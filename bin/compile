@@ -36,34 +36,6 @@ mkdir -p $CACHE_DIR
 
 cd $BUILD_DIR
 
-JS_FILE="$BUILD_DIR/web/flutter_bootstrap.js"
-
-generate_random_version() {
-    DATE=$(date +"%Y%m%d")
-    RANDOM_HASH=$(openssl rand -hex 4)
-    echo "${DATE}.${RANDOM_HASH}"
-}
-
-get_service_worker_version() {
-    git rev-parse --short HEAD 2>/dev/null || echo "default"
-}
-
-# Verifica se o arquivo existe
-if [ ! -f "$JS_FILE" ]; then
-    echo "Erro: flutter_bootstrap.js não encontrado!"
-    exit 1
-fi
-
-# Gera versões
-VERSION=$(generate_random_version)
-SERVICE_WORKER_VERSION=$(get_service_worker_version)
-
-sed -i 's/{{app_version}}/$VERSION/g' $JS_FILE
-
-# Substitui a versão do service worker - Note a flag -i '' para macOS
-sed -i 's/{{service_worker_version}}/$SERVICE_WORKER_VERSION/g' $JS_FILE
-
-
 if [ -d "$CACHE_DIR/flutter" ]; then
   print "Restoring Flutter SDK from CACHE"
   cp -R $CACHE_DIR/flutter $BUILD_DIR
@@ -107,7 +79,7 @@ flutter/bin/flutter pub get | indent
 PATH="$PATH":"$(pwd)/flutter/bin/"
 
 if [ -z "$FLUTTER_BUILD" ]; then
-  FLUTTER_BUILD="flutter build web --release --dart-define-from-file=env.produk.json --quiet"
+  FLUTTER_BUILD="flutter build web --release --dart-define-from-file=env.produk.json --web-renderer=html --quiet"
 fi
 
 print "Compiling the project with $FLUTTER_BUILD"
